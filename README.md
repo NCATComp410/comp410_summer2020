@@ -12,7 +12,7 @@ Preparing unstructured data for deep feature synthesis
     * conda install jupyterlab==1.2.6
   * Clone this project and cd to your clone
     * cd to directory you want to put this in 
-    * git clone <project clone url>
+    * git clone (project URL above - Green clone button)
     * cd comp410_summer2020
   * Install requirements
     * python -m pip install -r requirements.txt
