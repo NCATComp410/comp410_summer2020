@@ -23,6 +23,7 @@ def download_data():
             if click.confirm('OK to download demo featuretools data?', default=False):
                 es = ft.demo.load_flight(verbose=True)
                 save_demo_data(es, file_list)
+                break
 
 
 # demonstration - this will be removed later
