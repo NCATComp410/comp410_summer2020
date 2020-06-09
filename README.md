@@ -24,5 +24,5 @@ Preparing unstructured data for deep feature synthesis
   * cd dfstools
   * pytest --cov=dfstools
 ## Pull Request Requirements
-* All pull requests much attach output from pytest showing all test cases passed along with the coverage report or pull request will be rejected
+* All pull requests much attach output from pytest showing all test cases passed along with the coverage report or pull request will be rejected.
 
