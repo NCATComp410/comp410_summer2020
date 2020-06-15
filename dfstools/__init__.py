@@ -2,6 +2,7 @@
 # so will not include a setup.py for now
 
 # csv_tools
+from .src.csv_tools import show_aggie_pride
 from .src.csv_tools import load_csv_to_df
 
 # data_tools

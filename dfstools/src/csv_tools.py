@@ -1,6 +1,11 @@
 import pandas as pd
 
 
+# Prints aggie pride message
+def show_aggie_pride():
+    print('Aggie Pride - World wide')
+
+
 def load_csv_to_df(path, include_hidden=False, traverse_subdir=True, follow_symlink=False, ignore_errors=False):
     # path
     #    Starting path location to begin search
