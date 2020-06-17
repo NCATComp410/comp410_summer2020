@@ -16,7 +16,7 @@ class CsvTools(unittest.TestCase):
         out, err = self.capsys.readouterr()
 
         # make sure the message was actually printed 
-        self.assertEqual('Aggie Pride - World wide\n', out)
+        self.assertEqual('Aggie Pride - Worldwide\n', out)
 
 
     def test_load_csv_to_df(self):
