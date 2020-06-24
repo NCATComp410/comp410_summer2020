@@ -1,6 +1,50 @@
 import pandas as pd
 
 
+def fill_df(rel_dict,df_list, tbl):
+    dframe = df_list[tbl]
+
+    if tbl not in rel_dict:
+        rel_dict[tbl] = {}
+    for col in dframe.columns:
+        if col not in rel_dict[tbl]:
+            rel_dict[tbl][col] = {}
+
+
+def search_by_name(df_list, rel_dict):
+    # start by iterating through the table and columns once
+    for table in df_list:
+        print('+' + table)
+        for col in df_list[table].columns:
+
+            # after getting to the first column, we need to start working through the data again
+            # table by table
+
+            for tbl in df_list:
+
+                # given that that the tables are not the same table, we can move forward.
+
+                if tbl != table:
+                    print('-' + tbl)
+                    # delineation is made to show we are working within different parts of the
+                    # data to ensure no overlap is done between identical tables.
+
+                    for cln in df_list[tbl].columns:
+
+                        # additionally, we should compare column results to ensure we are finding a relationship
+                        # This relationship is present if the column names of different tables are identical
+
+                        if cln == col:
+
+                            # Finally, it should be determined if the relationship has been found in the
+                            # relationship dictionary. If that relationship doesn't exist, we simply add it
+
+                            if cln not in rel_dict:
+                                rel_dict[tbl][cln]['relationship'] = { table: cln}
+                                print(' ' + col)
+                                # We print the column only when it exists in a relationship that should be added.
+
+
 def find_related_cols_by_name(dataframe_list, relationship_dict=None):
     # dataframe_list
     #     List of pandas dataframe objects
@@ -14,13 +58,30 @@ def find_related_cols_by_name(dataframe_list, relationship_dict=None):
     # Student code (create additional functions as necessary)
     ###
 
+    for table in dataframe_list:
+        print(table)
+        for col in dataframe_list[table].columns:
+            print(' ' + col)
+
+    if relationship_dict is None:
+        relationship_dict = {}
+
+    search_by_name(dataframe_list, relationship_dict)
+    print('relationship dictionary for sbn: ')
+    print(relationship_dict)
+    relationship_dict = None
+    relationship_dict = {}
+
+    for table in dataframe_list:
+        fill_df(relationship_dict, dataframe_list, table)
+
     # mock-up for demonstration - remove after development
-    relationship_dict['airlines']['carrier']['relationships'] = [{'flights.carrier': {}}]
-    relationship_dict['airports']['dest']['relationships'] = [{'flights.dest': {}}]
-    relationship_dict['flights']['dest']['relationships'] = [{'airports.dest': {}}]
-    relationship_dict['flights']['carrier']['relationships'] = [{'airlines.carrier': {}}]
-    relationship_dict['flights']['flight_id']['relationships'] = [{'trip_logs.flight_id': {}}]
-    relationship_dict['trip_logs']['flight_id']['relationships'] = [{'flights.flight_id': {}}]
+    # relationship_dict['airlines']['carrier']['relationships'] = [{'flights.carrier': {}}]
+    # relationship_dict['airports']['dest']['relationships'] = [{'flights.dest': {}}]
+    # relationship_dict['flights']['dest']['relationships'] = [{'airports.dest': {}}]
+    # relationship_dict['flights']['carrier']['relationships'] = [{'airlines.carrier': {}}]
+    # relationship_dict['flights']['flight_id']['relationships'] = [{'trip_logs.flight_id': {}}]
+    # relationship_dict['trip_logs']['flight_id']['relationships'] = [{'flights.flight_id': {}}]
 
     # return relationship structure
     return relationship_dict
