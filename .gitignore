@@ -3,4 +3,7 @@
 __pycache__
 .idea
 .coverage
-*.csv
+data/airlines/airlines.csv
+data/airports/airports.csv
+data/flights/flights.csv
+data/trip_logs/trip_logs.csv
