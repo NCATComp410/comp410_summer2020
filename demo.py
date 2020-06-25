@@ -30,14 +30,16 @@ def download_data():
 
 # demonstration - this will be removed later
 if __name__ == "__main__":
-    dataframe_dict = {'airlines': pd.read_csv('data/airlines/airlines.csv'),
-                      'flights': pd.read_csv('data/flights/flights.csv'),
-                      'airports': pd.read_csv('data/airports/airports.csv')}
+
     print(sys.version)
     print(sys.executable)
 
     # Download example data (if it doesn't exist)
     download_data()
+
+    dataframe_dict = {'airlines': pd.read_csv('data/airlines/airlines.csv'),
+                      'flights': pd.read_csv('data/flights/flights.csv'),
+                      'airports': pd.read_csv('data/airports/airports.csv')}
 
     print(dt.load_csv_to_df(None))
 
@@ -48,7 +50,7 @@ if __name__ == "__main__":
     print(relationship_dict)
 
     relationship_dict = dt.find_related_cols_by_name(dataframe_dict, relationship_dict)
-    print('standard relationship dict unfiltered for relationships: ')
+    # print('standard relationship dict unfiltered for relationships: ')
     print(relationship_dict)
 
     relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)

@@ -1,16 +1,6 @@
 import pandas as pd
 
 
-def fill_df(rel_dict,df_list, tbl):
-    dframe = df_list[tbl]
-
-    if tbl not in rel_dict:
-        rel_dict[tbl] = {}
-    for col in dframe.columns:
-        if col not in rel_dict[tbl]:
-            rel_dict[tbl][col] = {}
-
-
 def search_by_name(df_list, rel_dict):
     # start by iterating through the table and columns once
     for table in df_list:
@@ -68,6 +58,8 @@ def find_related_cols_by_name(dataframe_list, relationship_dict=None):
     # Student code (create additional functions as necessary)
     ###
 
+    # print the tables as they are represented
+
     for table in dataframe_list:
         print(table)
         for col in dataframe_list[table].columns:
@@ -77,13 +69,7 @@ def find_related_cols_by_name(dataframe_list, relationship_dict=None):
         relationship_dict = {}
 
     search_by_name(dataframe_list, relationship_dict)
-    print('relationship dictionary for sbn: ')
-    print(relationship_dict)
-    relationship_dict = None
-    relationship_dict = {}
-
-    for table in dataframe_list:
-        fill_df(relationship_dict, dataframe_list, table)
+    # print('relationship dictionary for sbn: ')
 
     # mock-up for demonstration - remove after development
     # relationship_dict['airlines']['carrier']['relationships'] = [{'flights.carrier': {}}]
