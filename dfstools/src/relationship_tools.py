@@ -39,10 +39,20 @@ def search_by_name(df_list, rel_dict):
                             # Finally, it should be determined if the relationship has been found in the
                             # relationship dictionary. If that relationship doesn't exist, we simply add it
 
+                            # we should check by table value first and instantiate if it doesn't exist in the
+                            # the rel_dict
+                            if tbl not in rel_dict:
+                                rel_dict[tbl] = {}
+
+                            # after checking the table existance in rel_dict, we should check for the column
+                            # and add it as necessary
                             if cln not in rel_dict:
-                                rel_dict[tbl][cln]['relationship'] = { table: cln}
-                                print(' ' + col)
-                                # We print the column only when it exists in a relationship that should be added.
+                                rel_dict[tbl][cln] = { 'relationships': []}
+
+                            # finally adding the relationship to the rel_dict
+                            rel_dict[tbl][cln]['relationships'].append({table: cln})
+                            print(' ' + col)
+                            # We print the column only when it exists in a relationship that should be added.
 
 
 def find_related_cols_by_name(dataframe_list, relationship_dict=None):
