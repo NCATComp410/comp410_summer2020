@@ -32,7 +32,11 @@ def load_csv_to_df(path, include_hidden=False, traverse_subdir=True, follow_syml
     ###
 
     # mock-up for demonstration - remove after development
-    dataframe_list = ['airlines', 'airports', 'flights', 'trip_logs']
-
+    #dataframe_list = ['airlines', 'airports', 'flights', 'trip_logs']
+    dataframe_dict = {'airlines': pd.read_csv('data/airlines/airlines.csv'),
+                      'flights': pd.read_csv('data/flights/flights.csv'),
+                      'airports': pd.read_csv('data/airports/airports.csv'),
+                      'trip_logs': pd.read_csv('data/trip_logs/trip_logs.csv')}
     # Return a list of pandas dataframe objects
-    return dataframe_list
+
+    return dataframe_dict
