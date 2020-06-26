@@ -1,5 +1,7 @@
 import unittest
 import pandas as pd
+import git
+import os
 from dfstools import get_dataset_dtypes
 from dfstools import find_related_cols_by_name
 from dfstools import find_related_cols_by_content
@@ -34,9 +36,11 @@ class DataTools(unittest.TestCase):
                                                 # 'key_candidate': False,
                                                 'relationships': [{'flights.flight_id': {}}]}}}
 
-        dataframe_dict = {'airlines': pd.read_csv('../data/airlines/airlines.csv'),
-                          'flights': pd.read_csv('../data/flights/flights.csv'),
-                          'airports': pd.read_csv('../data/airports/airports.csv')}
+        data = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'data')
+
+        dataframe_dict = {'airlines': pd.read_csv(os.path.join(data, 'airlines', 'airlines.csv')),
+                          'flights': pd.read_csv(os.path.join(data, 'flights', 'flights.csv')),
+                          'airports': pd.read_csv(os.path.join(data, 'airports', 'airports.csv'))}
 
         result = find_related_cols_by_name(dataframe_dict, result)
         self.assertEqual(expected, result)

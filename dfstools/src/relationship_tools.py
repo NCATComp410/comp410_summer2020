@@ -36,11 +36,17 @@ def search_by_name(df_list, rel_dict):
 
                             # after checking the table existance in rel_dict, we should check for the column
                             # and add it as necessary
-                            if cln not in rel_dict:
-                                rel_dict[tbl][cln] = { 'relationships': []}
+                            if cln not in rel_dict[tbl]:
+                                rel_dict[tbl][cln] = {'relationships': []}
+
+                            # make sure the relationships index exists
+                            if 'relationships' not in rel_dict[tbl][cln]:
+                                rel_dict[tbl][cln]['relationships'] = []
 
                             # finally adding the relationship to the rel_dict
-                            rel_dict[tbl][cln]['relationships'].append({table: cln})
+                            relationship = '.'.join([table, cln])
+                            rel_dict[tbl][cln]['relationships'].append({relationship: {}})
+
                             print(' ' + col)
                             # We print the column only when it exists in a relationship that should be added.
 
@@ -76,8 +82,8 @@ def find_related_cols_by_name(dataframe_list, relationship_dict=None):
     # relationship_dict['airports']['dest']['relationships'] = [{'flights.dest': {}}]
     # relationship_dict['flights']['dest']['relationships'] = [{'airports.dest': {}}]
     # relationship_dict['flights']['carrier']['relationships'] = [{'airlines.carrier': {}}]
-    # relationship_dict['flights']['flight_id']['relationships'] = [{'trip_logs.flight_id': {}}]
-    # relationship_dict['trip_logs']['flight_id']['relationships'] = [{'flights.flight_id': {}}]
+    relationship_dict['flights']['flight_id']['relationships'] = [{'trip_logs.flight_id': {}}]
+    relationship_dict['trip_logs']['flight_id']['relationships'] = [{'flights.flight_id': {}}]
 
     # return relationship structure
     return relationship_dict

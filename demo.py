@@ -37,9 +37,9 @@ if __name__ == "__main__":
     # Download example data (if it doesn't exist)
     download_data()
 
-    dataframe_dict = {'airlines': pd.read_csv('data/airlines/airlines.csv'),
-                      'flights': pd.read_csv('data/flights/flights.csv'),
-                      'airports': pd.read_csv('data/airports/airports.csv')}
+    dataframe_dict = {'airlines': pd.read_csv(os.path.join('data', 'airlines', 'airlines.csv')),
+                      'flights': pd.read_csv(os.path.join('data', 'flights', 'flights.csv')),
+                      'airports': pd.read_csv(os.path.join('data', 'airports', 'airports.csv'))}
 
     print(dt.load_csv_to_df(None))
 
