@@ -1,6 +1,37 @@
 import pandas as pd
 
 
+def pecan_cookies_load_data():
+    pd.set_option("display.max_rows", None, "display.max_columns", None)
+    pd.set_option('display.width', 15000)
+
+    airports = pd.read_csv("./data/airports/airports.csv")
+    airlines = pd.read_csv("./data/airlines/airlines.csv")
+    flights = pd.read_csv("./data/flights/flights.csv")
+
+    dataframe_list = {
+        'airports': airports,
+        'airlines': airlines,
+        'flights': flights
+    }
+
+    return dataframe_list
+
+
+def find_similar_data(current_table, current_col, dataframe_dict):
+    relationship_list = []
+
+    target_set = set(dataframe_dict[current_table][current_col])
+    for table in dataframe_dict:
+        if table != current_table:
+            for col in dataframe_dict[table]:
+                compare_set = set(dataframe_dict[table][col])
+                if target_set.issubset(compare_set) or target_set.issuperset(compare_set):
+                    relationship_list.append(table + '.' + col)
+
+    return relationship_list
+
+
 def find_related_cols_by_name(dataframe_list, relationship_dict=None):
     # dataframe_list
     #     List of pandas dataframe objects
@@ -8,7 +39,6 @@ def find_related_cols_by_name(dataframe_list, relationship_dict=None):
     # relationship_dict
     #     This is an existing relationship_dict.  If None, a new
     #     relationship_dict should be created
-
 
     ###
     # Student code (create additional functions as necessary)
@@ -27,19 +57,29 @@ def find_related_cols_by_name(dataframe_list, relationship_dict=None):
 
 
 def find_related_cols_by_content(dataframe_list, relationship_dict=None):
-    # dataframe_list
-    #     List of pandas dataframe objects
-    #
-    # relationship_dict
-    #     This is an existing relationship_dict.  If None, a new
-    #     relationship_dict should be created
+    # if the data list is empty return None
+    if dataframe_list is None:
+        return relationship_dict
 
+    # if the relationship dictionary is None create an empty relationship dictionary
+    if relationship_dict is None:
+        relationship_dict = {}
 
-    ###
-    # Student code (create additional functions as necessary)
-    ###
+    for table in dataframe_list:
+        # create a short-hand reference to the actual dataframe
+        df = dataframe_list[table]
 
-    # return relationship structure
+        # If this table is not in the relationship_dict, add it
+        if table not in relationship_dict:
+            relationship_dict[table] = {}
+
+        # If a column is not in the relationship dict, add it
+        for col in df.columns:
+            if col not in relationship_dict[table]:
+                relationship_dict[table][col] = {}
+
+            relationship_dict[table][col]['relationships'] = find_similar_data(table, col, dataframe_list)
+
     return relationship_dict
 
 

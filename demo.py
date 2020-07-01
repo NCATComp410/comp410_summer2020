@@ -1,9 +1,8 @@
-import dfstools as dt
 import featuretools as ft
 import sys
 import click
 import os
-
+import dfstools as dt
 
 def save_demo_data(es, file_list):
     for f in file_list:
@@ -32,18 +31,25 @@ if __name__ == "__main__":
     print(sys.executable)
 
     # Download example data (if it doesn't exist)
+    print("Downloading data...")
     download_data()
 
-    print(dt.load_csv_to_df(None))
+    print("Loading into dataframe from csv...")
+    print(dt.load_csv_to_df(None), '\n')
 
+    print("get datatypes...")
     relationship_dict = dt.get_dataset_dtypes(None)
-    print(relationship_dict)
+    print(relationship_dict, '\n')
 
+    print("get primary keys...")
     relationship_dict = dt.find_primary_key_candidates(None, relationship_dict)
-    print(relationship_dict)
+    print(relationship_dict, '\n')
 
+    print("find related columns by name..")
     relationship_dict = dt.find_related_cols_by_name(None, relationship_dict)
-    print(relationship_dict)
+    print(relationship_dict, '\n')
 
+    print("find parent child relationships...")
     relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
-    print(relationship_dict)
+    print(relationship_dict, '\n')
+
