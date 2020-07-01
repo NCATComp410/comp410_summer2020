@@ -35,6 +35,7 @@ if __name__ == "__main__":
     print(sys.executable)
 
     # Download example data (if it doesn't exist)
+    print("Downloading data...")
     download_data()
 
     dataframe_dict = {'airlines': pd.read_csv(os.path.join('data', 'airlines', 'airlines.csv')),
@@ -43,15 +44,19 @@ if __name__ == "__main__":
 
     print(dt.load_csv_to_df(None))
 
+    print("get datatypes...")
     relationship_dict = dt.get_dataset_dtypes(None)
-    print(relationship_dict)
+    print(relationship_dict, '\n')
 
+    print("get primary keys...")
     relationship_dict = dt.find_primary_key_candidates(None, relationship_dict)
-    print(relationship_dict)
+    print(relationship_dict, '\n')
 
     relationship_dict = dt.find_related_cols_by_name(dataframe_dict, relationship_dict)
     # print('standard relationship dict unfiltered for relationships: ')
     print(relationship_dict)
 
+    print("find parent child relationships...")
     relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
-    print(relationship_dict)
+    print(relationship_dict, '\n')
+
