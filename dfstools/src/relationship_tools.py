@@ -1,13 +1,18 @@
 import pandas as pd
+import os
+import git
+
 
 
 def pecan_cookies_load_data():
     pd.set_option("display.max_rows", None, "display.max_columns", None)
     pd.set_option('display.width', 15000)
 
-    airports = pd.read_csv("./data/airports/airports.csv")
-    airlines = pd.read_csv("./data/airlines/airlines.csv")
-    flights = pd.read_csv("./data/flights/flights.csv")
+    data = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'data')
+
+    airports = pd.read_csv(os.path.join(data, 'airports', 'airports.csv'))
+    airlines = pd.read_csv(os.path.join(data, 'airlines', 'airlines.csv'))
+    flights = pd.read_csv(os.path.join(data, 'flights', 'flights.csv'))
 
     dataframe_list = {
         'airports': airports,
