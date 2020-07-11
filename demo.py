@@ -5,6 +5,7 @@ import click
 import os
 
 
+
 def save_demo_data(es, file_list):
     for f in file_list:
         file_with_path = os.path.join('data', os.path.join(f, f + '.csv'))
@@ -31,19 +32,24 @@ if __name__ == "__main__":
     print(sys.version)
     print(sys.executable)
 
+    #print(dt.ignore_errors_demo('data', ignore_errors=False))
+    #print(dt.follow_symlink_demo('data', follow_symlink=True))
+    print(dt.load_csv_to_df('data', include_hidden=False, traverse_subdir=True, ignore_errors=True, follow_symlink=False))
+
+    #print(traverse_subdir_demo("data", True))
     # Download example data (if it doesn't exist)
-    download_data()
+    #download_data()
 
-    print(dt.load_csv_to_df(None))
+    #print(dt.load_csv_to_df(None))
 
-    relationship_dict = dt.get_dataset_dtypes(None)
-    print(relationship_dict)
+    #relationship_dict = dt.get_dataset_dtypes(None)
+    #print(relationship_dict)
 
-    relationship_dict = dt.find_primary_key_candidates(None, relationship_dict)
-    print(relationship_dict)
+    #relationship_dict = dt.find_primary_key_candidates(None, relationship_dict)
+    #print(relationship_dict)
 
-    relationship_dict = dt.find_related_cols_by_name(None, relationship_dict)
-    print(relationship_dict)
+    #relationship_dict = dt.find_related_cols_by_name(None, relationship_dict)
+    #print(relationship_dict)
 
-    relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
-    print(relationship_dict)
+    #relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
+    #print(relationship_dict)
