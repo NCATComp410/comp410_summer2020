@@ -7,6 +7,7 @@ import os
 import pandas as pd
 
 
+
 def save_demo_data(es, file_list):
     for f in file_list:
         file_with_path = os.path.join('data', os.path.join(f, f + '.csv'))
@@ -34,8 +35,13 @@ if __name__ == "__main__":
     print(sys.version)
     print(sys.executable)
 
+    #print(dt.ignore_errors_demo('data', ignore_errors=False))
+    #print(dt.follow_symlink_demo('data', follow_symlink=True))
+    print(dt.load_csv_to_df('data', include_hidden=False, traverse_subdir=True, ignore_errors=True, follow_symlink=False))
+
+    #print(traverse_subdir_demo("data", True))
     # Download example data (if it doesn't exist)
-    print("Downloading data...")
+
     download_data()
 
     dataframe_dict = {'airlines': pd.read_csv(os.path.join('data', 'airlines', 'airlines.csv')),
@@ -59,4 +65,3 @@ if __name__ == "__main__":
     print("find parent child relationships...")
     relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
     print(relationship_dict, '\n')
-
