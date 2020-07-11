@@ -1,0 +1,28 @@
+===================================================================== test session starts ======================================================================
+platform darwin -- Python 3.8.3, pytest-5.4.2, py-1.8.2, pluggy-0.13.1
+rootdir: /Users/jostmann/Desktop/comp
+plugins: cov-2.9.0
+collected 5 items
+
+dfstools/tests/test_console.py .                                                                                                                         [ 20%]
+dfstools/tests/test_csv_tools.py ..                                                                                                                      [ 60%]
+dfstools/tests/test_data_tools.py .                                                                                                                      [ 80%]
+dfstools/tests/test_relationship_tools.py .                                                                                                              [100%]
+
+---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+Name                                        Stmts   Miss  Cover
+---------------------------------------------------------------
+dfstools/__init__.py                            8      0   100%
+dfstools/src/csv_tools.py                       6      0   100%
+dfstools/src/data_tools.py                     18      0   100%
+dfstools/src/relationship_tools.py             52     15    71%
+dfstools/tests/__init__.py                      0      0   100%
+dfstools/tests/test_console.py                 12      1    92%
+dfstools/tests/test_csv_tools.py               18      1    94%
+dfstools/tests/test_data_tools.py              13      1    92%
+dfstools/tests/test_relationship_tools.py      14      1    93%
+---------------------------------------------------------------
+TOTAL                                         141     19    87%
+
+
+====================================================================== 5 passed in 0.82s =======================================================================
