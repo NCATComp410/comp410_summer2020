@@ -1,8 +1,10 @@
+#import autonormalize
 import dfstools as dt
 import featuretools as ft
 import sys
 import click
 import os
+import pandas as pd
 
 
 
@@ -29,6 +31,7 @@ def download_data():
 
 # demonstration - this will be removed later
 if __name__ == "__main__":
+
     print(sys.version)
     print(sys.executable)
 
@@ -38,18 +41,27 @@ if __name__ == "__main__":
 
     #print(traverse_subdir_demo("data", True))
     # Download example data (if it doesn't exist)
-    #download_data()
 
-    #print(dt.load_csv_to_df(None))
+    download_data()
 
-    #relationship_dict = dt.get_dataset_dtypes(None)
-    #print(relationship_dict)
+    dataframe_dict = {'airlines': pd.read_csv(os.path.join('data', 'airlines', 'airlines.csv')),
+                      'flights': pd.read_csv(os.path.join('data', 'flights', 'flights.csv')),
+                      'airports': pd.read_csv(os.path.join('data', 'airports', 'airports.csv'))}
 
-    #relationship_dict = dt.find_primary_key_candidates(None, relationship_dict)
-    #print(relationship_dict)
+    print(dt.load_csv_to_df(None))
 
-    #relationship_dict = dt.find_related_cols_by_name(None, relationship_dict)
-    #print(relationship_dict)
+    print("get datatypes...")
+    relationship_dict = dt.get_dataset_dtypes(None)
+    print(relationship_dict, '\n')
 
-    #relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
-    #print(relationship_dict)
+    print("get primary keys...")
+    relationship_dict = dt.find_primary_key_candidates(None, relationship_dict)
+    print(relationship_dict, '\n')
+
+    relationship_dict = dt.find_related_cols_by_name(dataframe_dict, relationship_dict)
+    # print('standard relationship dict unfiltered for relationships: ')
+    print(relationship_dict)
+
+    print("find parent child relationships...")
+    relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
+    print(relationship_dict, '\n')
