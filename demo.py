@@ -7,7 +7,6 @@ import os
 import pandas as pd
 
 
-
 def save_demo_data(es, file_list):
     for f in file_list:
         file_with_path = os.path.join('data', os.path.join(f, f + '.csv'))
@@ -31,31 +30,28 @@ def download_data():
 
 # demonstration - this will be removed later
 if __name__ == "__main__":
-
+    # Show current system information
     print(sys.version)
     print(sys.executable)
 
-    #print(dt.ignore_errors_demo('data', ignore_errors=False))
-    #print(dt.follow_symlink_demo('data', follow_symlink=True))
-    print(dt.load_csv_to_df('data', include_hidden=False, traverse_subdir=True, ignore_errors=True, follow_symlink=False))
-
-    #print(traverse_subdir_demo("data", True))
     # Download example data (if it doesn't exist)
-
     download_data()
 
-    dataframe_dict = {'airlines': pd.read_csv(os.path.join('data', 'airlines', 'airlines.csv')),
-                      'flights': pd.read_csv(os.path.join('data', 'flights', 'flights.csv')),
-                      'airports': pd.read_csv(os.path.join('data', 'airports', 'airports.csv'))}
+    # Load the csv files into dataframes
+    dataframe_dict = dt.load_csv_to_df('data',
+                                       include_hidden=False,
+                                       traverse_subdir=True,
+                                       ignore_errors=True,
+                                       follow_symlink=False)
 
-    print(dt.load_csv_to_df(None))
+    print(dataframe_dict.keys())
 
     print("get datatypes...")
-    relationship_dict = dt.get_dataset_dtypes(None)
+    relationship_dict = dt.get_dataset_dtypes(dataframe_dict)
     print(relationship_dict, '\n')
 
     print("get primary keys...")
-    relationship_dict = dt.find_primary_key_candidates(None, relationship_dict)
+    relationship_dict = dt.find_primary_key_candidates(dataframe_dict, relationship_dict)
     print(relationship_dict, '\n')
 
     relationship_dict = dt.find_related_cols_by_name(dataframe_dict, relationship_dict)
@@ -63,5 +59,5 @@ if __name__ == "__main__":
     print(relationship_dict)
 
     print("find parent child relationships...")
-    relationship_dict = dt.find_parent_child_relationships(None, relationship_dict)
+    relationship_dict = dt.find_parent_child_relationships(dataframe_dict, relationship_dict)
     print(relationship_dict, '\n')
