@@ -60,6 +60,39 @@ class CsvTools(unittest.TestCase):
         # .old_trip_logs.csv should now be present
         self.assertIn('.old_trip_logs.csv', result)
 
+    def test_find_csv_files_traverse_subdir(self):
+        # This will make sure traverse_subdir works as expected
+        # Find the data directory for this repo
+        data_path = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'data')
+
+        # List of filenames we expect to see.  Order is not important
+        # Full path is not important
+        expected = {'flights.csv',
+                    'invalid_logs.csv',
+                    'trip_logs.csv',
+                    'airlines.csv',
+                    'airports.csv'}
+
+        result = find_csv_files(data_path,
+                                include_hidden=False,
+                                traverse_subdir=True,
+                                follow_symlink=False)
+
+        # Make sure all expected file names are present
+        for e in expected:
+            self.assertIn(e, next((s for s in result if e in s), result))
+
+        # Now set to False, should not traverse into any of the sub-directories
+        # So none of the expected files should be returned.
+        result = find_csv_files(data_path,
+                                include_hidden=False,
+                                traverse_subdir=False,
+                                follow_symlink=False)
+
+        # No files should be present
+        for e in expected:
+            self.assertNotIn(e, next((s for s in result if e in s), result))
+
     def test_load_csv_to_df(self):
         expected = {'airlines', 'airports', 'flights', 'trip_logs'}
 
