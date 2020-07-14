@@ -9,11 +9,8 @@ from dfstools import find_parent_child_relationships
 from dfstools import pecan_cookies_load_data
 
 
-class DataTools(unittest.TestCase):
-
+class RelationshipTools(unittest.TestCase):
     def test_get_dataset_dtypes(self):
-
-        '''
         expected = {'airlines': {'carrier': {'dtype': 'O'}},
                     'airports': {'dest': {'dtype': 'O'}},
                     'flights': {'dest': {'dtype': 'O'}, 'carrier': {'dtype': 'O'},'flight_id': {'dtype': 'O'}},
@@ -49,8 +46,8 @@ class DataTools(unittest.TestCase):
 
         result = find_related_cols_by_name(dataframe_dict, result)
         self.assertEqual(expected, result)
-        '''
 
+    def test_find_related_cols_by_content(self):
         # ---pecan cookies sprint one test case---
 
         expected = {
