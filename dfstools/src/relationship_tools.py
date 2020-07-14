@@ -117,8 +117,8 @@ def find_related_cols_by_name(dataframe_list, relationship_dict=None):
     # relationship_dict['airports']['dest']['relationships'] = [{'flights.dest': {}}]
     # relationship_dict['flights']['dest']['relationships'] = [{'airports.dest': {}}]
     # relationship_dict['flights']['carrier']['relationships'] = [{'airlines.carrier': {}}]
-    relationship_dict['flights']['flight_id']['relationships'] = [{'trip_logs.flight_id': {}}]
-    relationship_dict['trip_logs']['flight_id']['relationships'] = [{'flights.flight_id': {}}]
+    # relationship_dict['flights']['flight_id']['relationships'] = [{'trip_logs.flight_id': {}}]
+    # relationship_dict['trip_logs']['flight_id']['relationships'] = [{'flights.flight_id': {}}]
 
     # return relationship structure
     return relationship_dict

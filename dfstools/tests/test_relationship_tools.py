@@ -18,6 +18,8 @@ class RelationshipTools(unittest.TestCase):
         result = get_dataset_dtypes(None)
         self.assertEqual(expected, result)
 
+    def test_find_related_cols_by_name(self):
+        result = get_dataset_dtypes(None)
         expected = {
                     'airlines': {'carrier': {'dtype': 'O',
                                              # 'key_candidate': True,
@@ -42,7 +44,8 @@ class RelationshipTools(unittest.TestCase):
 
         dataframe_dict = {'airlines': pd.read_csv(os.path.join(data, 'airlines', 'airlines.csv')),
                           'flights': pd.read_csv(os.path.join(data, 'flights', 'flights.csv')),
-                          'airports': pd.read_csv(os.path.join(data, 'airports', 'airports.csv'))}
+                          'airports': pd.read_csv(os.path.join(data, 'airports', 'airports.csv')),
+                          'trip_logs': pd.read_csv(os.path.join(data, 'trip_logs', 'trip_logs.csv'))}
 
         result = find_related_cols_by_name(dataframe_dict, result)
         self.assertEqual(expected, result)
