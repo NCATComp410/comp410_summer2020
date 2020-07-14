@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def get_dataset_dtypes(dataframe_list):
     # dataframe_list
     #     List of pandas dataframe objects
