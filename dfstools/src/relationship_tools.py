@@ -32,7 +32,7 @@ def find_similar_data(current_table, current_col, dataframe_dict):
             for col in dataframe_dict[table]:
                 compare_set = set(dataframe_dict[table][col])
                 if target_set.issubset(compare_set) or target_set.issuperset(compare_set):
-                    relationship_list.append(table + '.' + col)
+                    relationship_list.append({table + '.' + col: {}})
 
     return relationship_list
 
@@ -144,9 +144,8 @@ def find_related_cols_by_content(dataframe_list, relationship_dict=None):
         # If a column is not in the relationship dict, add it
         for col in df.columns:
             if col not in relationship_dict[table]:
-                relationship_dict[table][col] = {}
-
-            relationship_dict[table][col]['relationships'] = find_similar_data(table, col, dataframe_list)
+                relationship_dict[table][col] = {'key_candidate': 'False',
+                                                 'relationships': find_similar_data(table, col, dataframe_list)}
 
     return relationship_dict
 

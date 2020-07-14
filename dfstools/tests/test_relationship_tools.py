@@ -50,24 +50,31 @@ class RelationshipTools(unittest.TestCase):
     def test_find_related_cols_by_content(self):
         # ---pecan cookies sprint one test case---
 
-        expected = {
-                    'airports': {'dest': {'relationships': ['flights.origin', 'flights.dest']},
-                                 'dest_city': {'relationships': ['flights.origin_city']},
-                                 'dest_state': {'relationships': ['flights.origin_state']}},
+        expected = {'airlines': {'carrier': {'key_candidate': 'False',
+                                             'relationships': [{'flights.carrier': {}}]}},
+                    'airports': {'dest': {'key_candidate': 'False',
+                                          'relationships': [{'flights.origin': {}},
+                                                            {'flights.dest': {}}]},
+                                 'dest_city': {'key_candidate': 'False',
+                                               'relationships': [{'flights.origin_city': {}}]},
+                                 'dest_state': {'key_candidate': 'False',
+                                                'relationships': [{'flights.origin_state': {}}]}},
+                    'flights': {'carrier': {'key_candidate': 'False',
+                                            'relationships': [{'airlines.carrier': {}}]},
+                                'dest': {'key_candidate': 'False',
+                                         'relationships': [{'airports.dest': {}}]},
+                                'distance_group': {'key_candidate': 'False', 'relationships': []},
+                                'first_trip_logs_time': {'key_candidate': 'False',
+                                                         'relationships': []},
+                                'flight_id': {'key_candidate': 'False', 'relationships': []},
+                                'flight_num': {'key_candidate': 'False', 'relationships': []},
+                                'origin': {'key_candidate': 'False',
+                                           'relationships': [{'airports.dest': {}}]},
+                                'origin_city': {'key_candidate': 'False',
+                                                'relationships': [{'airports.dest_city': {}}]},
+                                'origin_state': {'key_candidate': 'False',
+                                                 'relationships': [{'airports.dest_state': {}}]}}}
 
-                    'airlines': {'carrier': {'relationships': ['flights.carrier']}},
-
-                    "flights": {
-                        "flight_id": {"relationships": []},
-                        "origin": {"relationships": ["airports.dest"]},
-                        "origin_city": {"relationships": ["airports.dest_city"]},
-                        "origin_state": {"relationships": ["airports.dest_state"]},
-                        "dest": {"relationships": ["airports.dest"]},
-                        "distance_group": {"relationships": []},
-                        "carrier": {"relationships": ["airlines.carrier"]},
-                        "flight_num": {"relationships": []},
-                        "first_trip_logs_time": {"relationships": []}}
-                    }
         data_list = pecan_cookies_load_data()
         result = find_related_cols_by_content(data_list)
         self.assertEqual(expected, result)
