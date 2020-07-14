@@ -4,7 +4,9 @@ import featuretools as ft
 import sys
 import click
 import os
-import pandas as pd
+import pprint
+
+pp = pprint.PrettyPrinter(width=41, compact=True)
 
 
 def save_demo_data(es, file_list):
@@ -38,26 +40,38 @@ if __name__ == "__main__":
     download_data()
 
     # Load the csv files into dataframes
+    print('=================')
+    print('Loading CSV Files')
     dataframe_dict = dt.load_csv_to_df('data',
                                        include_hidden=False,
                                        traverse_subdir=True,
                                        ignore_errors=True,
                                        follow_symlink=False)
-
+    print('Found the following tables:')
     print(dataframe_dict.keys())
 
+    print('================')
     print("get datatypes...")
     relationship_dict = dt.get_dataset_dtypes(dataframe_dict)
-    print(relationship_dict, '\n')
+    pp.pprint(relationship_dict)
 
+    print('===================')
     print("get primary keys...")
     relationship_dict = dt.find_primary_key_candidates(dataframe_dict, relationship_dict)
-    print(relationship_dict, '\n')
+    pp.pprint(relationship_dict)
 
+    print('===============================')
+    print('Finding related columns by name')
     relationship_dict = dt.find_related_cols_by_name(dataframe_dict, relationship_dict)
     # print('standard relationship dict unfiltered for relationships: ')
-    print(relationship_dict)
+    pp.pprint(relationship_dict)
 
+    print('===============================')
+    print('Find related columns by content')
+    relationship_dict = dt.find_related_cols_by_content(dataframe_dict, relationship_dict)
+    pp.pprint(relationship_dict)
+
+    print('==================================')
     print("find parent child relationships...")
     relationship_dict = dt.find_parent_child_relationships(dataframe_dict, relationship_dict)
-    print(relationship_dict, '\n')
+    pp.pprint(relationship_dict)
