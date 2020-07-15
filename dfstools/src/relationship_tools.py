@@ -141,11 +141,18 @@ def find_related_cols_by_content(dataframe_list, relationship_dict=None):
         if table not in relationship_dict:
             relationship_dict[table] = {}
 
-        # If a column is not in the relationship dict, add it
         for col in df.columns:
-            if col not in relationship_dict[table]:
+            # If a column is not in the relationship dict, add it
+            if col not in relationship_dict[table] or 'relationships' not in relationship_dict[table][col]:
                 relationship_dict[table][col] = {'key_candidate': 'False',
                                                  'relationships': find_similar_data(table, col, dataframe_list)}
+            # If a column already exists we only want to add the new relationships that find_similar_data()
+            # finds, we don't want to re-add an existing relationship
+            else:
+                for r in find_similar_data(table, col, dataframe_list):
+                    # Only add new relationships, not existing ones
+                    if r not in relationship_dict[table][col]['relationships']:
+                        relationship_dict[table][col]['relationships'].append(r)
 
     return relationship_dict
 
