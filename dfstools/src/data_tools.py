@@ -36,7 +36,7 @@ def find_primary_key_candidates(dataframe_list, relationship_dict=None):
     #     relationship_dict should be created
 
     # adds relationship_dict if there isn't one
-   for table in dataframe_list:
+    for table in dataframe_list:
        if table not in relationship_dict:
            relationship_dict[table] = {}
 
