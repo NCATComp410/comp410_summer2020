@@ -5,11 +5,11 @@ import git
 def find_similar_data(current_table, current_col, dataframe_dict):
     relationship_list = []
 
-    target_set = set(dataframe_dict[current_table][current_col])
+    target_set = set(dataframe_dict[current_table][current_col].unique())
     for table in dataframe_dict:
         if table != current_table:
             for col in dataframe_dict[table]:
-                compare_set = set(dataframe_dict[table][col])
+                compare_set = set(dataframe_dict[table][col].unique())
                 if target_set.issubset(compare_set) or target_set.issuperset(compare_set):
                     relationship_list.append({table + '.' + col: {}})
 
