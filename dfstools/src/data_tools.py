@@ -11,19 +11,24 @@ def get_dataset_dtypes(dataframe_list):
     # mock-up for demonstration - remove after development
     # this is only a partial column list
     # actual list will come from columns in each dataframe
+    df = pd.DataFrame(dataframe_list)
+    #df['DataFrame Column'].dtype
+    df = df.applymap(str)
     relationship_dict = {'airlines': {},
                          'airports': {},
                          'flights': {},
                          'trip_logs': {}}
+    print(df)
+    print(df.dtypes)
 
-    relationship_dict['airlines']['carrier'] = {'dtype':'O'}
-    relationship_dict['airports']['dest'] = {'dtype': 'O'}
-    relationship_dict['flights']['dest'] = {'dtype': 'O'}
-    relationship_dict['flights']['carrier'] = {'dtype': 'O'}
-    relationship_dict['flights']['flight_id'] = {'dtype': 'O'}
-    relationship_dict['trip_logs']['flight_id'] = {'dtype': 'O'}
+    relationship_dict['airlines']['carrier'] = {'dtype':'str'}
+    relationship_dict['airports']['dest'] = {'dtype': 'str'}
+    relationship_dict['flights']['dest'] = {'dtype': 'str'}
+    relationship_dict['flights']['carrier'] = {'dtype': 'str'}
+    relationship_dict['flights']['flight_id'] = {'dtype': 'str'}
+    relationship_dict['trip_logs']['flight_id'] = {'dtype': 'str'}
 
-    # return relationship structure
+# return relationship structure
     return relationship_dict
 
 
