@@ -1,29 +1,32 @@
 import pandas as pd
 
+
 def get_dataset_dtypes(dataframe_list):
     # dataframe_list
     #     List of pandas dataframe objects
 
-    ###
-    # Student code (create additional functions as necessary)
-    ###
+    # For testing purposes if not passing a dataframe_list
+    # return a default testing values
+    if dataframe_list is None:
+        return {'airlines': {'carrier': {'dtype': 'O'}},
+                'airports': {'dest': {'dtype': 'O'}},
+                'flights': {'dest': {'dtype': 'O'}, 'carrier': {'dtype': 'O'},'flight_id': {'dtype': 'O'}},
+                'trip_logs': {'flight_id': {'dtype': 'O'}}}
 
-    # mock-up for demonstration - remove after development
-    # this is only a partial column list
-    # actual list will come from columns in each dataframe
-    relationship_dict = {'airlines': {},
-                         'airports': {},
-                         'flights': {},
-                         'trip_logs': {}}
+    # Initialize the relationship structure
+    relationship_dict = {}
 
-    relationship_dict['airlines']['carrier'] = {'dtype':'O'}
-    relationship_dict['airports']['dest'] = {'dtype': 'O'}
-    relationship_dict['flights']['dest'] = {'dtype': 'O'}
-    relationship_dict['flights']['carrier'] = {'dtype': 'O'}
-    relationship_dict['flights']['flight_id'] = {'dtype': 'O'}
-    relationship_dict['trip_logs']['flight_id'] = {'dtype': 'O'}
+    # Traverse through each table contained in the dataframe_list
+    for table in dataframe_list:
+        # Add this table to the relationship_dict
+        relationship_dict[table] = {}
 
-    # return relationship structure
+        # Traverse through each column in this table
+        for col in dataframe_list[table].columns:
+            # Add the column's dtyp to the relationship_dict
+            relationship_dict[table][col] = {'dtype': str(dataframe_list[table][col].dtype)}
+
+    # return final relationship structure
     return relationship_dict
 
 
