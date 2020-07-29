@@ -2,35 +2,14 @@ import pandas as pd
 import os
 import git
 
-
-
-def pecan_cookies_load_data():
-    pd.set_option("display.max_rows", None, "display.max_columns", None)
-    pd.set_option('display.width', 15000)
-
-    data = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'data')
-
-    airports = pd.read_csv(os.path.join(data, 'airports', 'airports.csv'))
-    airlines = pd.read_csv(os.path.join(data, 'airlines', 'airlines.csv'))
-    flights = pd.read_csv(os.path.join(data, 'flights', 'flights.csv'))
-
-    dataframe_list = {
-        'airports': airports,
-        'airlines': airlines,
-        'flights': flights
-    }
-
-    return dataframe_list
-
-
 def find_similar_data(current_table, current_col, dataframe_dict):
     relationship_list = []
 
-    target_set = set(dataframe_dict[current_table][current_col])
+    target_set = set(dataframe_dict[current_table][current_col].unique())
     for table in dataframe_dict:
         if table != current_table:
             for col in dataframe_dict[table]:
-                compare_set = set(dataframe_dict[table][col])
+                compare_set = set(dataframe_dict[table][col].unique())
                 if target_set.issubset(compare_set) or target_set.issuperset(compare_set):
                     relationship_list.append({table + '.' + col: {}})
 
@@ -141,11 +120,18 @@ def find_related_cols_by_content(dataframe_list, relationship_dict=None):
         if table not in relationship_dict:
             relationship_dict[table] = {}
 
-        # If a column is not in the relationship dict, add it
         for col in df.columns:
-            if col not in relationship_dict[table]:
+            # If a column is not in the relationship dict, add it
+            if col not in relationship_dict[table] or 'relationships' not in relationship_dict[table][col]:
                 relationship_dict[table][col] = {'key_candidate': 'False',
                                                  'relationships': find_similar_data(table, col, dataframe_list)}
+            # If a column already exists we only want to add the new relationships that find_similar_data()
+            # finds, we don't want to re-add an existing relationship
+            else:
+                for r in find_similar_data(table, col, dataframe_list):
+                    # Only add new relationships, not existing ones
+                    if r not in relationship_dict[table][col]['relationships']:
+                        relationship_dict[table][col]['relationships'].append(r)
 
     return relationship_dict
 

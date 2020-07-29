@@ -6,7 +6,6 @@ from dfstools import get_dataset_dtypes
 from dfstools import find_related_cols_by_name
 from dfstools import find_related_cols_by_content
 from dfstools import find_parent_child_relationships
-from dfstools import pecan_cookies_load_data
 
 
 class RelationshipTools(unittest.TestCase):
@@ -53,6 +52,31 @@ class RelationshipTools(unittest.TestCase):
     def test_find_related_cols_by_content(self):
         # ---pecan cookies sprint one test case---
 
+        # expected = {'airlines': {'carrier': {'key_candidate': 'False',
+        #                                      'relationships': [{'flights.carrier': {}}]}},
+        #             'airports': {'dest': {'key_candidate': 'False',
+        #                                   'relationships': [{'flights.origin': {}},
+        #                                                     {'flights.dest': {}}]},
+        #                          'dest_city': {'key_candidate': 'False',
+        #                                        'relationships': [{'flights.origin_city': {}}]},
+        #                          'dest_state': {'key_candidate': 'False',
+        #                                         'relationships': [{'flights.origin_state': {}}]}},
+        #             'flights': {'carrier': {'key_candidate': 'False',
+        #                                     'relationships': [{'airlines.carrier': {}}]},
+        #                         'dest': {'key_candidate': 'False',
+        #                                  'relationships': [{'airports.dest': {}}]},
+        #                         'distance_group': {'key_candidate': 'False', 'relationships': []},
+        #                         'first_trip_logs_time': {'key_candidate': 'False',
+        #                                                  'relationships': []},
+        #                         'flight_id': {'key_candidate': 'False', 'relationships': []},
+        #                         'flight_num': {'key_candidate': 'False', 'relationships': []},
+        #                         'origin': {'key_candidate': 'False',
+        #                                    'relationships': [{'airports.dest': {}}]},
+        #                         'origin_city': {'key_candidate': 'False',
+        #                                         'relationships': [{'airports.dest_city': {}}]},
+        #                         'origin_state': {'key_candidate': 'False',
+        #                                          'relationships': [{'airports.dest_state': {}}]}}}
+
         expected = {'airlines': {'carrier': {'key_candidate': 'False',
                                              'relationships': [{'flights.carrier': {}}]}},
                     'airports': {'dest': {'key_candidate': 'False',
@@ -66,19 +90,76 @@ class RelationshipTools(unittest.TestCase):
                                             'relationships': [{'airlines.carrier': {}}]},
                                 'dest': {'key_candidate': 'False',
                                          'relationships': [{'airports.dest': {}}]},
-                                'distance_group': {'key_candidate': 'False', 'relationships': []},
+                                'distance_group': {'key_candidate': 'False',
+                                                   'relationships': [{'trip_logs.trip_log_id': {}},
+                                                                     {'trip_logs.dep_delay': {}},
+                                                                     {'trip_logs.taxi_out': {}},
+                                                                     {'trip_logs.taxi_in': {}},
+                                                                     {'trip_logs.arr_delay': {}},
+                                                                     {'trip_logs.carrier_delay': {}},
+                                                                     {'trip_logs.weather_delay': {}},
+                                                                     {'trip_logs.national_airspace_delay': {}},
+                                                                     {'trip_logs.security_delay': {}},
+                                                                     {'trip_logs.late_aircraft_delay': {}}]},
                                 'first_trip_logs_time': {'key_candidate': 'False',
                                                          'relationships': []},
-                                'flight_id': {'key_candidate': 'False', 'relationships': []},
-                                'flight_num': {'key_candidate': 'False', 'relationships': []},
+                                'flight_id': {'key_candidate': 'False',
+                                              'relationships': [{'trip_logs.flight_id': {}}]},
+                                'flight_num': {'key_candidate': 'False',
+                                               'relationships': [{'trip_logs.trip_log_id': {}}]},
                                 'origin': {'key_candidate': 'False',
                                            'relationships': [{'airports.dest': {}}]},
                                 'origin_city': {'key_candidate': 'False',
                                                 'relationships': [{'airports.dest_city': {}}]},
                                 'origin_state': {'key_candidate': 'False',
-                                                 'relationships': [{'airports.dest_state': {}}]}}}
+                                                 'relationships': [{'airports.dest_state': {}}]}},
+                    'trip_logs': {'air_time': {'key_candidate': 'False', 'relationships': []},
+                                  'arr_delay': {'key_candidate': 'False',
+                                                'relationships': [{'flights.distance_group': {}}]},
+                                  'arr_time': {'key_candidate': 'False', 'relationships': []},
+                                  'canceled': {'key_candidate': 'False', 'relationships': []},
+                                  'carrier_delay': {'key_candidate': 'False',
+                                                    'relationships': [{'flights.distance_group': {}}]},
+                                  'date_scheduled': {'key_candidate': 'False',
+                                                     'relationships': []},
+                                  'dep_delay': {'key_candidate': 'False',
+                                                'relationships': [{'flights.distance_group': {}}]},
+                                  'dep_time': {'key_candidate': 'False', 'relationships': []},
+                                  'distance': {'key_candidate': 'False', 'relationships': []},
+                                  'diverted': {'key_candidate': 'False', 'relationships': []},
+                                  'flight_id': {'key_candidate': 'False',
+                                                'relationships': [{'flights.flight_id': {}}]},
+                                  'late_aircraft_delay': {'key_candidate': 'False',
+                                                          'relationships': [{'flights.distance_group': {}}]},
+                                  'national_airspace_delay': {'key_candidate': 'False',
+                                                              'relationships': [{'flights.distance_group': {}}]},
+                                  'scheduled_arr_time': {'key_candidate': 'False',
+                                                         'relationships': []},
+                                  'scheduled_dep_time': {'key_candidate': 'False',
+                                                         'relationships': []},
+                                  'scheduled_elapsed_time': {'key_candidate': 'False',
+                                                             'relationships': []},
+                                  'security_delay': {'key_candidate': 'False',
+                                                     'relationships': [{'flights.distance_group': {}}]},
+                                  'taxi_in': {'key_candidate': 'False',
+                                              'relationships': [{'flights.distance_group': {}}]},
+                                  'taxi_out': {'key_candidate': 'False',
+                                               'relationships': [{'flights.distance_group': {}}]},
+                                  'trip_log_id': {'key_candidate': 'False',
+                                                  'relationships': [{'flights.distance_group': {}},
+                                                                    {'flights.flight_num': {}}]},
+                                  'weather_delay': {'key_candidate': 'False',
+                                                    'relationships': [{'flights.distance_group': {}}]}}}
 
-        data_list = pecan_cookies_load_data()
+        # data_list = pecan_cookies_load_data()
+
+        data = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'data')
+
+        data_list = {'airlines': pd.read_csv(os.path.join(data, 'airlines', 'airlines.csv')),
+                          'flights': pd.read_csv(os.path.join(data, 'flights', 'flights.csv')),
+                          'airports': pd.read_csv(os.path.join(data, 'airports', 'airports.csv')),
+                          'trip_logs': pd.read_csv(os.path.join(data, 'trip_logs', 'trip_logs.csv'))}
+
         result = find_related_cols_by_content(data_list)
         self.assertEqual(expected, result)
 
