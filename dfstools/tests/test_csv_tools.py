@@ -1,5 +1,7 @@
 import unittest
 import pytest
+import git
+import os
 from dfstools import show_aggie_pride
 from dfstools import load_csv_to_df
 
@@ -18,12 +20,18 @@ class CsvTools(unittest.TestCase):
         # make sure the message was actually printed 
         self.assertEqual('Aggie Pride - Worldwide\n', out)
 
-
     def test_load_csv_to_df(self):
-        expected = ['airlines', 'airports', 'flights', 'trip_logs']
-        result = load_csv_to_df(None)
+        expected = {'airlines', 'airports', 'flights', 'trip_logs'}
 
-        self.assertEqual(expected, result)
+        data_path = os.path.join(git.Repo('.', search_parent_directories=True).working_tree_dir, 'data')
+
+        dataframe_dict = load_csv_to_df(data_path,
+                                        include_hidden=False,
+                                        traverse_subdir=True,
+                                        ignore_errors=True,
+                                        follow_symlink=False)
+
+        self.assertEqual(expected, set(dataframe_dict.keys()))
 
 
 if __name__ == '__main__':
